@@ -1,0 +1,30 @@
+const contextMenuItem = {
+    id: "copy",
+    title: "Save to Clipboard",
+    contexts: ["selection"]
+};
+
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create(contextMenuItem);
+});
+
+chrome.contextMenus.onClicked.addListener((clickData) => {
+    if (clickData.menuItemId !== "copy" || !clickData.selectionText) {
+        return;
+    }
+
+    chrome.storage.local.get(["clips"], (result) => {
+        const clips = result.clips || [];
+        const newClip = {
+            id: Date.now(),
+            text: clickData.selectionText,
+            timestamp: new Date().toLocaleString()
+        };
+
+        clips.unshift(newClip);
+
+        chrome.storage.local.set({ clips }, () => {
+            console.log("Text is set to " + clickData.selectionText);
+        });
+    });
+});

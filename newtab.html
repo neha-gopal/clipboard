@@ -1,0 +1,17 @@
+{
+  "name": "Clipboard",
+  "version": "0.1.0",
+  "description": "A simple clipboard history extension for saving highlighted text.",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Clipboard",
+    "default_popup": "newtab.html"
+  },
+  "background": {
+    "service_worker": "eventPage.js"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus"
+  ]
+}
